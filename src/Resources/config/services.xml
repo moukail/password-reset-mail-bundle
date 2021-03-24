@@ -37,8 +37,8 @@
             <argument /> <!-- reset password request enable_garbage_collection -->
         </service>
 
-        <service id="Moukail\PasswordResetMailBundle\Helper" alias="moukail_password_reset.reset_password_helper"/>
-        <service id="moukail_password_reset.reset_password_helper" class="Moukail\PasswordResetMailBundle\Helper" public="true" autowire="true">
+        <service id="Moukail\PasswordResetMailBundle\Helper" alias="moukail_password_reset.password_reset_helper"/>
+        <service id="moukail_password_reset.password_reset_helper" class="Moukail\PasswordResetMailBundle\Helper" public="true" autowire="true">
             <argument type="service" id="moukail_password_reset.token_generator"/>
             <argument type="service" id="moukail_password_reset.cleaner" />
             <argument type="service" id="moukail_password_reset.token_repository"/>
