@@ -7,7 +7,7 @@ use Moukail\CommonToken\Entity\TokenInterface;
 use Moukail\CommonToken\Exception\ExceptionInterface;
 use Moukail\CommonToken\HelperInterface;
 use Moukail\CommonToken\Repository\UserRepositoryInterface;
-use Moukail\PasswordResetMailBundle\Message\ResetPasswordMail;
+use Moukail\PasswordResetMailBundle\Message\PasswordResetMail;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -54,7 +54,7 @@ class PasswordResetController extends AbstractController
             ], Response::HTTP_OK);
         }
 
-        $this->bus->dispatch(new ResetPasswordMail($tokenEntity->getUser()->getEmail(), [
+        $this->bus->dispatch(new PasswordResetMail($tokenEntity->getUser()->getEmail(), [
             'name' => $tokenEntity->getUser()->getLastName(),
             'frontend_url' => $this->params->get('moukail_password_reset.email_base_url'),
             'token' => $tokenEntity->getToken(),
