@@ -1,0 +1,40 @@
+{
+  "name" : "moukail/password-reset-mail-bundle",
+  "description" : "Implements password reset mail bundle",
+  "type" : "symfony-bundle",
+  "authors" : [{
+    "name" : "Ismail",
+    "email" : "ismail@datamatch.nl"
+  }],
+  "license" : [
+    "MIT"
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://moukail@bitbucket.org/dmrdevelopers/common-token"
+    }
+  ],
+  "require" : {
+    "php": "^7.4|^8.0",
+    "symfony/framework-bundle": "^4.0|^5.0",
+    "moukail/common-token": "~1.0"
+  },
+  "require-dev": {
+    "doctrine/doctrine-bundle": "~1.4|~2.0",
+    "doctrine/orm": "^2.4.8"
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "autoload": {
+    "psr-4": {
+      "Moukail\\PasswordResetMailBundle\\": "src/"
+    }
+  },
+  "extra" : {
+    "branch-alias" : {
+      "dev-master" : "1.0"
+    }
+  }
+}

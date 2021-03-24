@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Moukail\PasswordResetMailBundle\Controller\PasswordResetController" alias="moukail_password_reset.password_reset_controller" />
+        <service id="moukail_password_reset.password_reset_controller" class="Moukail\PasswordResetMailBundle\Controller\PasswordResetController" public="true" autowire="true">
+            <argument type="service" id="moukail_password_reset.password_reset_helper"/>
+            <argument />
+        </service>
+        
+        <service id="Moukail\PasswordResetMailBundle\MessageHandler\PasswordResetMailHandler" alias="moukail_password_reset.password_reset_mail_handler" />
+        <service id="moukail_password_reset.password_reset_mail_handler" class="Moukail\PasswordResetMailBundle\MessageHandler\PasswordResetMailHandler" public="true" autowire="true">
+            <argument />
+            <argument />
+            <argument />
+            <argument />
+            <tag name="messenger.message_handler"
+                 handles="Moukail\PasswordResetMailBundle\Message\PasswordResetMail"/>
+        </service>
+
+        <service id="moukail_password_reset.random_generator" class="Moukail\CommonToken\Generator\RandomGenerator" public="true" />
+        <service id="moukail_password_reset.token_generator" class="Moukail\CommonToken\Generator\TokenGenerator" public="true" autowire="true">
+            <argument>%kernel.secret%</argument>
+            <argument type="service" id="moukail_password_reset.random_generator" />
+        </service>
+
+        <service id="Moukail\PasswordResetMailBundle\Repository\TokenRepository" alias="moukail_password_reset.token_repository" />
+        <service id="moukail_password_reset.token_repository" class="Moukail\PasswordResetMailBundle\Repository\TokenRepository" autowire="true">
+            <argument type="service" id="doctrine"/>
+            <tag name="doctrine.repository_service"
+                 handles="Moukail\PasswordResetMailBundle\Repository\TokenRepository"/>
+        </service>
+
+        <service id="moukail_password_reset.cleaner" class="Moukail\CommonToken\Cleaner" public="true">
+            <argument type="service" id="moukail_password_reset.token_repository"/>
+            <argument /> <!-- reset password request enable_garbage_collection -->
+        </service>
+
+        <service id="Moukail\PasswordResetMailBundle\Helper" alias="moukail_password_reset.reset_password_helper"/>
+        <service id="moukail_password_reset.reset_password_helper" class="Moukail\PasswordResetMailBundle\Helper" public="true" autowire="true">
+            <argument type="service" id="moukail_password_reset.token_generator"/>
+            <argument type="service" id="moukail_password_reset.cleaner" />
+            <argument type="service" id="moukail_password_reset.token_repository"/>
+            <argument>86400</argument> <!-- reset password request lifetime -->
+            <argument>100</argument> <!-- reset password throttle limit -->
+        </service>
+
+    </services>
+</container>
