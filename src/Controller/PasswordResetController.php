@@ -55,7 +55,7 @@ class PasswordResetController extends AbstractController
         }
 
         $this->bus->dispatch(new PasswordResetMail($tokenEntity->getUser()->getEmail(), [
-            'name' => $tokenEntity->getUser()->getLastName(),
+            'name' => $tokenEntity->getUser()->getFirstName(),
             'frontend_url' => $this->params->get('moukail_password_reset.email_base_url'),
             'token' => $tokenEntity->getToken(),
         ]));
