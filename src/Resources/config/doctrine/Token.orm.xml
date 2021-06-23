@@ -9,7 +9,7 @@
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
-        <many-to-one field="user" target-entity="Symfony\Component\Security\Core\User\UserInterface">
+        <many-to-one field="user" target-entity="\Symfony\Component\Security\Core\User\UserInterface">
             <join-column name="user_id" referenced-column-name="id" />
         </many-to-one>
         <field name="token"         column="token"          type="string"   length="50"     unique="true" />
