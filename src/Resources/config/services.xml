@@ -5,6 +5,9 @@
     <services>
         <service id="Moukail\PasswordResetMailBundle\Controller\PasswordResetController" alias="moukail_password_reset.password_reset_controller" />
         <service id="moukail_password_reset.password_reset_controller" class="Moukail\PasswordResetMailBundle\Controller\PasswordResetController" public="true" autowire="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
             <argument type="service" id="moukail_password_reset.password_reset_helper"/>
             <argument />
         </service>
