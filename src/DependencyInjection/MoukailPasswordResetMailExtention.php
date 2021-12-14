@@ -32,7 +32,7 @@ class MoukailPasswordResetMailExtention extends Extension
         $helperDefinition->replaceArgument(3, $config['from_name']);
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'moukail_password_reset';
     }
