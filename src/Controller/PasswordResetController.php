@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PasswordResetController extends AbstractController
@@ -23,17 +23,17 @@ class PasswordResetController extends AbstractController
     use ControllerTrait;
 
     private $helper;
-    private $passwordEncoder;
+    private $passwordHasher;
     private $userRepository;
     private $validator;
     private $bus;
     /** @var ParameterBagInterface */
     private $params;
 
-    public function __construct(HelperInterface $helper, UserRepositoryInterface $userRepository, UserPasswordEncoderInterface $passwordEncoder, ValidatorInterface $validator, MessageBusInterface $bus, ParameterBagInterface $params)
+    public function __construct(HelperInterface $helper, UserRepositoryInterface $userRepository, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, MessageBusInterface $bus, ParameterBagInterface $params)
     {
         $this->helper = $helper;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
         $this->userRepository = $userRepository;
         $this->validator = $validator;
         $this->bus = $bus;
@@ -85,7 +85,7 @@ class PasswordResetController extends AbstractController
         $this->helper->removeTokenEntity($token);
 
         $plainPassword = $this->getPlainPasswordFromRequest($request);
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
+        $encodedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
 
         $user->setPassword($encodedPassword);
         $this->getDoctrine()->getManager()->flush();
